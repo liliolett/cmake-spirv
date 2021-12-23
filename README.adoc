@@ -1,0 +1,70 @@
+CMake SPIR-V integration
+========================
+:toc: preamble
+
+This small module provides a convenience function for integrating shader compilation with `glslc` into the CMake build process.
+
+
+== Example usage / Quick start
+
+[source,cmake]
+----
+# Precondition: Make sure AddSpirvModules.cmake is available within the
+# CMAKE_MODULE_PATH
+
+include(AddSpirvModules)
+
+# Create shader target
+add_spirv_modules(shaders
+                  SOURCE_DIR res/shaders
+                  BINARY_DIR res/shaders
+                  SOURCES    my_shader.vert my_shader.frag)
+
+# Make sure shaders are compiled by specifying dependencies
+add_dependencies(my_executable shaders)
+----
+
+
+== Requirements
+
+This module requires CMake version 3.19 or above.
+
+
+== Documentation
+
+[source,cmake]
+----
+add_spirv_modules(<target_name> [<option>...])
+----
+
+Adds custom commands to compile a number of shader source files to SPIR-V using `glslc` and bundles them into a custom target called `<target_name>`. +
+The commands are defined with the flags `VERBATIM` and `COMMAND_EXPAND_LISTS` enabled.
+
+Options::
+	`SOURCE_DIR <dir>`:: [[SOURCE_DIR]]
+		All source files will be looked up relative to this path.
+		If the given value is not an absolute path it will be prefixed with `${CMAKE_CURRENT_SOURCE_DIR}`. +
+		Default value: `${CMAKE_CURRENT_SOURCE_DIR}`
++
+	`BINARY_DIR <dir>`::
+		All output files will be generated relative to this path.
+		If the given value is not an absolute path it will be prefixed with `${CMAKE_CURRENT_BINARY_DIR}`. +
+		Default value: `${CMAKE_CURRENT_BINARY_DIR}`
++
+	`SOURCES <fname1> [<fname2>...]`::
+		The shader modules to be compiled, relative to <<SOURCE_DIR>>.
+		For each `SOURCE` in this list, the resulting SPIR-V file will be generated at <<BINARY_DIR,`${BINARY_DIR}`>>`/${SOURCE}.spv`
++
+	`OPTIONS <option1> [<option2>...]`::
+		Additional command line options for `glslc`, passed on verbatim.
+
+See also::
+
+* https://man.archlinux.org/man/extra/shaderc/glslc.1.en[glslc]
+* https://cmake.org/cmake/help/v3.19/command/add_custom_command.html[add_custom_command]
+* https://cmake.org/cmake/help/v3.19/command/add_custom_target.html[add_custom_target]
+
+
+== License
+
+This module is licensed under the BSD 3-clause license.

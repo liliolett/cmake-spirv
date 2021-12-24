@@ -9,9 +9,19 @@ This small module provides a convenience function for integrating shader compila
 
 [source,cmake]
 ----
-# Precondition: Make sure AddSpirvModules.cmake is available within the
-# CMAKE_MODULE_PATH
+# Automatically download cmake-spirv with FetchContent
+include(FetchContent)
 
+FetchContent_Declare(cmake-spirv
+		GIT_REPOSITORY https://github.com/perfectlypurple/cmake-spirv.git
+		GIT_TAG        origin/v1
+		)
+FetchContent_MakeAvailable(cmake-spirv)
+
+# Add cmake-spirv to module path
+list(APPEND CMAKE_MODULE_PATH ${cmake-spirv_SOURCE_DIR}/include)
+
+# Include required modules
 include(AddSpirvModules)
 
 # Create shader target
@@ -28,6 +38,14 @@ add_dependencies(my_executable shaders)
 == Requirements
 
 This module requires CMake version 3.19 or above.
+
+
+== Versioning
+
+`cmake-spirv` uses a single version number that will be incremented with breaking API changes.
+Versions are defined by git branches.
+
+The latest version is https://github.com/perfectlypurple/cmake-spirv/tree/v1[v1].
 
 
 == Documentation
@@ -52,7 +70,7 @@ Options::
 		Default value: `${CMAKE_CURRENT_BINARY_DIR}`
 +
 	`SOURCES <fname1> [<fname2>...]`::
-		The shader modules to be compiled, relative to <<SOURCE_DIR>>.
+		The shader modules to be compiled, relative to <<SOURCE_DIR,`SOURCE_DIR`>>.
 		For each `SOURCE` in this list, the resulting SPIR-V file will be generated at <<BINARY_DIR,`${BINARY_DIR}`>>`/${SOURCE}.spv`
 +
 	`OPTIONS <option1> [<option2>...]`::

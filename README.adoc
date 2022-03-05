@@ -13,7 +13,7 @@ This small module provides a convenience function for integrating shader compila
 include(FetchContent)
 
 FetchContent_Declare(cmake-spirv
-		GIT_REPOSITORY https://github.com/perfectlypurple/cmake-spirv.git
+		GIT_REPOSITORY https://github.com/liliolett/cmake-spirv.git
 		GIT_TAG        origin/v1
 		)
 FetchContent_MakeAvailable(cmake-spirv)
@@ -45,7 +45,7 @@ This module requires CMake version 3.19 or above.
 `cmake-spirv` uses a single version number that will be incremented with breaking API changes.
 Versions are defined by git branches.
 
-The latest version is https://github.com/perfectlypurple/cmake-spirv/tree/v1[v1].
+The latest version is https://github.com/liliolett/cmake-spirv/tree/v1[v1].
 
 
 == Documentation
